@@ -1,4 +1,35 @@
-use std::{
+use std::{io, path::PathBuf, process::Command};
+
+use crate::utils::get_temp_path;
+
+pub fn decompress_file_7z<F>(
+    input_path: &PathBuf,
+    output_path: &PathBuf,
+    mut _progress_callback: F,
+    target_pattern: Option<&str>,
+) -> io::Result<()>
+where
+    F: FnMut(usize, usize),
+{
+    let output = Command::new(get_temp_path().join("7z").join("7z.exe").to_str().unwrap())
+        .args(&[
+            "x",
+            input_path.to_str().unwrap(),
+            target_pattern.unwrap_or("*"),
+            &format!("-o{}", output_path.to_str().unwrap()),
+            "-y"
+        ])
+        .output()?;
+
+    if !output.status.success() {
+        panic!("7z failed: {} {}", String::from_utf8_lossy(&output.stderr),String::from_utf8_lossy(&output.stdout))
+    }
+    
+    Ok(())
+}
+
+//下面的实现效率太低（
+/* use std::{
     fs::File,
     io::{self, Write},
     path::PathBuf,
@@ -26,7 +57,7 @@ where
         .sum();
 
     let pb = ProgressBar::new(total_size as u64);
-    pb.set_style(ProgressStyle::with_template("/* {spinner:.green}  */[{elapsed_precise}] [{wide_bar:.cyan/blue}] {bytes}/{total_bytes} ({eta})")
+    pb.set_style(ProgressStyle::with_template(" {spinner:.green}  [{elapsed_precise}] [{wide_bar:.cyan/blue}] {bytes}/{total_bytes} ({eta})")
         .unwrap()
         //.with_key("eta", |state: &ProgressState, w: &mut dyn Write| write!(w, "{:.1}s", state.eta().as_secs_f64()).unwrap())
         .progress_chars("#> "));
@@ -78,6 +109,4 @@ where
     //pb.finish_with_message("Done");
 
     Ok(())
-}
-
-
+} */

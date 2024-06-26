@@ -24,10 +24,9 @@ pub fn hpm_install(
     match decompress_file_7z(
         input_path,
         install_path,
-        |progress, total| {
-            format!("Decompression progress: {} out of {}", progress, total);
-        },
-        None,
+        |_progress, _total| {
+            //format!("Decompression progress: {} out of {}", progress, total);
+        },None
     ) {
         Err(e) => eprintln!("Decompression failed: {}", e),
         _ => {}
