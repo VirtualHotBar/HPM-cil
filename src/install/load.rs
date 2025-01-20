@@ -15,10 +15,10 @@ use crate::utils::get_temp_path;
  }
 
 ///加载驱动包,接受驱动包路径(如.7z)
- pub fn load_driver_pack(driver_pack_path: &PathBuf)-> process::Output {
+ pub fn load_driver_pack(driver_pack_path: &PathBuf,driver_index_path: Option<&PathBuf>)-> process::Output {
     let output =
-        process::Command::new(get_temp_path().join("DrvIndex.exe").to_str().unwrap())
-            .args(&["-b", driver_pack_path.to_str().unwrap(),"-hide"])
+        process::Command::new(get_temp_path().join("DriverIndexer.exe").to_str().unwrap())
+            .args(&["load-driver", driver_pack_path.to_str().unwrap(), driver_index_path.unwrap_or(&PathBuf::new()).to_str().unwrap(),"--AllDevice"])
             .output()
             .expect("Failed to execute DrvIndex command");
         print!("{}", String::from_utf8_lossy(&output.stdout));

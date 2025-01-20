@@ -1,3 +1,4 @@
+use std::fs;
 use load::{load_driver_pack, run_pecmd_script};
 
 use crate::utils::{compression::sevenz::decompress_file_7z, is_user_an_admin};
@@ -26,7 +27,8 @@ pub fn hpm_install(
         install_path,
         |_progress, _total| {
             //format!("Decompression progress: {} out of {}", progress, total);
-        },None
+        },
+        None,
     ) {
         Err(e) => eprintln!("Decompression failed: {}", e),
         _ => {}
@@ -45,7 +47,17 @@ pub fn hpm_executor(install_path: &PathBuf, hpm_config: HashMap<String, String>)
                 panic!("Please run as administrator to install driver.");
             };
             println!("Load driver pack...");
-            load_driver_pack(&install_path.join("Driver.7z"))
+
+            let driver_json_path = install_path.join("Driver.json");
+
+            load_driver_pack(
+                &install_path.join("Driver.7z"),
+                if fs::metadata(&driver_json_path).is_ok() {
+                    Some(&driver_json_path)
+                } else {
+                    None
+                },
+            )
         }
         _ => {
             println!("Run installation script...");

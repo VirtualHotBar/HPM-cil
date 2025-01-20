@@ -22,6 +22,7 @@ encoding_rs = "0.8"
 indicatif = "0.17"
 dirs = "5.0"
 winapi = { version = "0.3", features = ["processthreadsapi", "securitybaseapi","errhandlingapi"] }
+vc-ltl = "5.1.1"
 #threadpool = "1.8"
 #num_cpus = "1.16"
 #zstd = "0.13"
