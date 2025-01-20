@@ -1,5 +1,5 @@
 [package]
-name = "hpm_cil"
+name = "hpm_cli"
 version = "0.1.0"
 edition = "2021"
 description = "HPM(HotPE Module) Manager"

@@ -28,7 +28,7 @@ lazy_static! {
 }
 
 fn main() {
-    let matches = Command::new("HPMMGR - CIL")
+    let matches = Command::new("HPMMGR - CLI")
         .version("0.1")
         .author("VirtualHotBar <blog.hotpe.top>")
         .about("HPM(HotPE Module) Manager")
