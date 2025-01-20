@@ -1,10 +1,10 @@
-# HPM Cil
+# HPM Cli
 HPM包加载器的Rust实现。
 
 ``` BATH
 HPM(HotPE Module) Manager
 
-Usage: hpm_cil.exe [OPTIONS] [HPMPath]
+Usage: hpm_cli.exe [OPTIONS] [HPMPath]
 
 Arguments:
   [HPMPath]  Sets the input file to use
